@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eac10dd52755c9f4da80b3ea0a7a2c5a, type: 3}
+  m_Name: EarthTowerData
+  m_EditorClassIdentifier: 
+  towerId: TWR-04
+  towerName: Earth Element
+  element: 3
+  description: Tower serangan dasar.
+  icon: {fileID: 0}
+  towerPrefab: {fileID: 0}
+  baseDamage: 40
+  baseFireRate: 0.5
+  baseRange: 2
+  cost: 140
+  levels: []

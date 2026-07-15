@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eac10dd52755c9f4da80b3ea0a7a2c5a, type: 3}
+  m_Name: FireTowerData
+  m_EditorClassIdentifier: 
+  towerId: TWR-01
+  towerName: Fire Element
+  element: 0
+  description: Tower serangan dasar.
+  icon: {fileID: 0}
+  towerPrefab: {fileID: 7369385165847420564, guid: e6f7edd091fe9734e8a8c41146d92bdc,
+    type: 3}
+  baseDamage: 25
+  baseFireRate: 0.83
+  baseRange: 3.5
+  cost: 100
+  levels: []
