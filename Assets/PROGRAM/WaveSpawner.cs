@@ -153,6 +153,23 @@ public class WaveSpawner : MonoBehaviour
             Debug.Log($"[WaveSpawner] Stage di-set ke {currentStage}");
     }
 
+    /// <summary>
+    /// Dipanggil oleh StageManager untuk memulai stage baru dengan wave-nya sendiri.
+    /// Reset semua state spawning dan mulai dari wave pertama stage ini.
+    /// </summary>
+    public void StartStage(int stageNumber, Wave[] stageWaves)
+    {
+        currentStage = stageNumber;
+        waves = stageWaves;
+        currentWaveIndex = 0;
+        allWavesDone = false;
+        state = SpawnState.COUNTING;
+        countdown = 1f; // jeda singkat sebelum wave pertama stage ini mulai
+
+        if (showDebugLog)
+            Debug.Log($"[WaveSpawner] StartStage dipanggil — Stage {stageNumber}, {waves.Length} wave.");
+    }
+
     public int GetCurrentWaveDisplay() => currentWaveIndex + 1;
     public int GetTotalWaves() => waves.Length;
     public float GetCountdown() => Mathf.Max(0f, countdown);

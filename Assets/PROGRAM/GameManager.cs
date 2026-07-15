@@ -34,13 +34,13 @@ public class GameManager : MonoBehaviour
     private void OnEnable()
     {
         MainTower.OnGameOver += HandleLose;
-        WaveSpawner.OnAllWavesComplete += HandleWin;
+        StageManager.OnAllStagesComplete += HandleWin; // ★ diganti dari WaveSpawner, sekarang menang = semua STAGE selesai
     }
 
     private void OnDisable()
     {
         MainTower.OnGameOver -= HandleLose;
-        WaveSpawner.OnAllWavesComplete -= HandleWin;
+        StageManager.OnAllStagesComplete -= HandleWin;
     }
 
     private void Start()
@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviour
     {
         if (currentState == GameState.Lose || currentState == GameState.Win) return;
 
-        Debug.Log("[GameManager] MENANG — semua wave berhasil dilewati!");
+        Debug.Log("[GameManager] MENANG — semua STAGE berhasil dilewati!");
         SetState(GameState.Win);
         Time.timeScale = 0f;
     }
