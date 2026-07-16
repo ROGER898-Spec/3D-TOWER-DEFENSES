@@ -17,10 +17,10 @@ MonoBehaviour:
   element: 1
   description: Tower serangan dasar.
   icon: {fileID: 0}
-  towerPrefab: {fileID: 2656218718257395895, guid: 38d0228b0acccbc449a155c3a7290053,
+  towerPrefab: {fileID: 6250250034306970684, guid: bc79c31e292770e4782c0e590afe2ad2,
     type: 3}
   baseDamage: 15
   baseFireRate: 1
-  baseRange: 4
+  baseRange: 5.5
   cost: 120
   levels: []

@@ -20,6 +20,6 @@ MonoBehaviour:
   towerPrefab: {fileID: 0}
   baseDamage: 18
   baseFireRate: 1.25
-  baseRange: 4.5
+  baseRange: 6
   cost: 110
   levels: []
