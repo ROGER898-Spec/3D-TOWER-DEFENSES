@@ -2,64 +2,95 @@ using UnityEngine;
 
 /// <summary>
 /// EnemyHealth - Mengelola HP musuh dan kematiannya.
+/// Mengambil data dari EnemyData ScriptableObject.
 /// Letakkan pada prefab Enemy bersama EnemyMovement.
 /// </summary>
 public class EnemyHealth : MonoBehaviour
 {
-    [Header("Health")]
-    [Tooltip("HP dasar (Stage 1, belum di-scaling)")]
-    public float maxHealth = 100f;
-
-    [Header("Element")]
-    public ElementType element = ElementType.Fire;
-
-    [Header("Reward")]
-    public int rewardOnDeath = 10;
+    [Header("Enemy Data")]
+    public EnemyData enemyData;
 
     [Header("Effects")]
     public GameObject deathEffectPrefab;
 
     private float currentHealth;
+    private float baseHealth;
     private bool isDead = false;
 
     public static event System.Action<int> OnEnemyKilled;
 
+
     private void Awake()
     {
-        currentHealth = maxHealth;
+        if (enemyData != null)
+        {
+            baseHealth = enemyData.maxHealth;
+            currentHealth = baseHealth;
+        }
+        else
+        {
+            Debug.LogWarning($"[EnemyHealth] EnemyData belum diisi pada {gameObject.name}");
+        }
     }
 
+
     /// <summary>
-    /// Terapkan scaling HP sesuai stage, formula dari data balancing:
-    /// HP Stage = Base HP x (1 + (Stage x 0.15))
-    /// Dipanggil oleh WaveSpawner TEPAT SETELAH Instantiate, sebelum musuh mulai jalan.
+    /// Terapkan scaling HP sesuai stage.
+    /// Dipanggil oleh WaveSpawner setelah enemy spawn.
     /// </summary>
     public void ApplyStageScaling(int stage)
     {
-        float multiplier = 1f + (stage * 0.15f);
-        maxHealth *= multiplier;
-        currentHealth = maxHealth;
+        if (enemyData == null) return;
 
-        Debug.Log($"[EnemyHealth] {gameObject.name} discale ke Stage {stage} -> HP: {maxHealth} (x{multiplier})");
+        float multiplier = 1f + (stage * 0.15f);
+
+        currentHealth = baseHealth * multiplier;
+
+        Debug.Log(
+            $"[EnemyHealth] {gameObject.name} Stage {stage} HP: {currentHealth}"
+        );
     }
+
 
     public void TakeDamage(float amount)
     {
         ApplyDamage(amount);
     }
 
+
     public void TakeDamage(float amount, ElementType attackerElement)
     {
-        float multiplier = ElementSystem.GetMultiplier(attackerElement, element);
+        if (enemyData == null)
+        {
+            ApplyDamage(amount);
+            return;
+        }
+
+        float multiplier = ElementSystem.GetMultiplier(
+            attackerElement,
+            enemyData.element
+        );
+
         float finalDamage = amount * multiplier;
 
+
         if (multiplier > 1f)
-            Debug.Log($"[EnemyHealth] {gameObject.name} kena UNGGUL! {amount} -> {finalDamage}");
+        {
+            Debug.Log(
+                $"[EnemyHealth] {gameObject.name} kena UNGGUL! {amount} -> {finalDamage}"
+            );
+        }
         else if (multiplier < 1f)
-            Debug.Log($"[EnemyHealth] {gameObject.name} kena LEMAH! {amount} -> {finalDamage}");
+        {
+            Debug.Log(
+                $"[EnemyHealth] {gameObject.name} kena LEMAH! {amount} -> {finalDamage}"
+            );
+        }
+
 
         ApplyDamage(finalDamage);
     }
+
 
     private void ApplyDamage(float amount)
     {
@@ -71,21 +102,54 @@ public class EnemyHealth : MonoBehaviour
             Die();
     }
 
-    public float GetHealthPercent() => currentHealth / maxHealth;
-    public float GetCurrentHealth() => currentHealth;
-    public float GetMaxHealth() => maxHealth;
+
+    public float GetHealthPercent()
+    {
+        if (enemyData == null) return 0;
+
+        return currentHealth / (baseHealth);
+    }
+
+
+    public float GetCurrentHealth()
+    {
+        return currentHealth;
+    }
+
+
+    public float GetMaxHealth()
+    {
+        return baseHealth;
+    }
+
 
     private void Die()
     {
         if (isDead) return;
+
         isDead = true;
 
+
         if (deathEffectPrefab != null)
-            Instantiate(deathEffectPrefab, transform.position, Quaternion.identity);
+        {
+            Instantiate(
+                deathEffectPrefab,
+                transform.position,
+                Quaternion.identity
+            );
+        }
 
-        OnEnemyKilled?.Invoke(rewardOnDeath);
 
-        Debug.Log($"[EnemyHealth] {gameObject.name} mati! Reward: {rewardOnDeath}");
+        if (enemyData != null)
+        {
+            OnEnemyKilled?.Invoke(enemyData.rewardOnDeath);
+
+            Debug.Log(
+                $"[EnemyHealth] {gameObject.name} mati! Reward: {enemyData.rewardOnDeath}"
+            );
+        }
+
+
         Destroy(gameObject);
     }
 }

@@ -98,12 +98,12 @@ public class EnemyMovement : MonoBehaviour
     }
 
     // ─── Musuh mencapai Main Tower ────────────────────────────────────────────
-    private void ReachMainTower()
+   private void ReachMainTower()
     {
         isMoving = false;
 
-        // Kurangi nyawa Main Tower
-        MainTower tower = FindObjectOfType<MainTower>();
+        MainTower tower = FindAnyObjectByType<MainTower>();
+
         if (tower != null)
             tower.TakeDamage(1);
 
