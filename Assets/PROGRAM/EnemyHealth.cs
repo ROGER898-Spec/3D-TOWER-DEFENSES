@@ -1,96 +1,67 @@
+using System.Collections;
 using UnityEngine;
 
 /// <summary>
 /// EnemyHealth - Mengelola HP musuh dan kematiannya.
-/// Mengambil data dari EnemyData ScriptableObject.
 /// Letakkan pada prefab Enemy bersama EnemyMovement.
 /// </summary>
 public class EnemyHealth : MonoBehaviour
 {
-    [Header("Enemy Data")]
-    public EnemyData enemyData;
+    [Header("Health")]
+    [Tooltip("HP dasar (Stage 1, belum di-scaling)")]
+    public float maxHealth = 100f;
+
+    [Header("Element")]
+    public ElementType element = ElementType.Fire;
+
+    [Header("Reward")]
+    public int rewardOnDeath = 10;
 
     [Header("Effects")]
     public GameObject deathEffectPrefab;
 
     private float currentHealth;
-    private float baseHealth;
     private bool isDead = false;
+    private Coroutine burnCoroutine;
 
     public static event System.Action<int> OnEnemyKilled;
 
-
     private void Awake()
     {
-        if (enemyData != null)
-        {
-            baseHealth = enemyData.maxHealth;
-            currentHealth = baseHealth;
-        }
-        else
-        {
-            Debug.LogWarning($"[EnemyHealth] EnemyData belum diisi pada {gameObject.name}");
-        }
+        currentHealth = maxHealth;
     }
 
-
     /// <summary>
-    /// Terapkan scaling HP sesuai stage.
-    /// Dipanggil oleh WaveSpawner setelah enemy spawn.
+    /// Terapkan scaling HP sesuai stage, formula dari data balancing:
+    /// HP Stage = Base HP x (1 + (Stage x 0.15))
+    /// Dipanggil oleh WaveSpawner TEPAT SETELAH Instantiate, sebelum musuh mulai jalan.
     /// </summary>
     public void ApplyStageScaling(int stage)
     {
-        if (enemyData == null) return;
-
         float multiplier = 1f + (stage * 0.15f);
+        maxHealth *= multiplier;
+        currentHealth = maxHealth;
 
-        currentHealth = baseHealth * multiplier;
-
-        Debug.Log(
-            $"[EnemyHealth] {gameObject.name} Stage {stage} HP: {currentHealth}"
-        );
+        Debug.Log($"[EnemyHealth] {gameObject.name} discale ke Stage {stage} -> HP: {maxHealth} (x{multiplier})");
     }
-
 
     public void TakeDamage(float amount)
     {
         ApplyDamage(amount);
     }
 
-
     public void TakeDamage(float amount, ElementType attackerElement)
     {
-        if (enemyData == null)
-        {
-            ApplyDamage(amount);
-            return;
-        }
-
-        float multiplier = ElementSystem.GetMultiplier(
-            attackerElement,
-            enemyData.element
-        );
-
+        float multiplier = ElementSystem.GetMultiplier(attackerElement, element);
         float finalDamage = amount * multiplier;
 
-
         if (multiplier > 1f)
-        {
-            Debug.Log(
-                $"[EnemyHealth] {gameObject.name} kena UNGGUL! {amount} -> {finalDamage}"
-            );
-        }
+            Debug.Log($"[EnemyHealth] {gameObject.name} kena UNGGUL! {amount} -> {finalDamage}");
         else if (multiplier < 1f)
-        {
-            Debug.Log(
-                $"[EnemyHealth] {gameObject.name} kena LEMAH! {amount} -> {finalDamage}"
-            );
-        }
-
+            Debug.Log($"[EnemyHealth] {gameObject.name} kena LEMAH! {amount} -> {finalDamage}");
 
         ApplyDamage(finalDamage);
     }
-
 
     private void ApplyDamage(float amount)
     {
@@ -102,54 +73,54 @@ public class EnemyHealth : MonoBehaviour
             Die();
     }
 
-
-    public float GetHealthPercent()
+    /// <summary>
+    /// Terapkan efek Burning Core (Fire): damage bertahap tiap 1 detik selama beberapa detik.
+    /// Kalau kena tembak Fire lagi selagi masih terbakar, durasi di-reset (tidak stacking dobel).
+    /// </summary>
+    public void ApplyBurn(float damagePerSecond, float duration)
     {
-        if (enemyData == null) return 0;
+        if (isDead) return;
 
-        return currentHealth / (baseHealth);
+        if (burnCoroutine != null)
+            StopCoroutine(burnCoroutine);
+
+        burnCoroutine = StartCoroutine(BurnRoutine(damagePerSecond, duration));
     }
 
-
-    public float GetCurrentHealth()
+    private IEnumerator BurnRoutine(float damagePerSecond, float duration)
     {
-        return currentHealth;
+        float elapsed = 0f;
+
+        while (elapsed < duration && !isDead)
+        {
+            yield return new WaitForSeconds(1f);
+            elapsed += 1f;
+
+            if (!isDead)
+            {
+                Debug.Log($"[EnemyHealth] {gameObject.name} terbakar! -{damagePerSecond} HP");
+                ApplyDamage(damagePerSecond);
+            }
+        }
+
+        burnCoroutine = null;
     }
 
-
-    public float GetMaxHealth()
-    {
-        return baseHealth;
-    }
-
+    public float GetHealthPercent() => currentHealth / maxHealth;
+    public float GetCurrentHealth() => currentHealth;
+    public float GetMaxHealth() => maxHealth;
 
     private void Die()
     {
         if (isDead) return;
-
         isDead = true;
 
-
         if (deathEffectPrefab != null)
-        {
-            Instantiate(
-                deathEffectPrefab,
-                transform.position,
-                Quaternion.identity
-            );
-        }
+            Instantiate(deathEffectPrefab, transform.position, Quaternion.identity);
 
+        OnEnemyKilled?.Invoke(rewardOnDeath);
 
-        if (enemyData != null)
-        {
-            OnEnemyKilled?.Invoke(enemyData.rewardOnDeath);
-
-            Debug.Log(
-                $"[EnemyHealth] {gameObject.name} mati! Reward: {enemyData.rewardOnDeath}"
-            );
-        }
-
-
+        Debug.Log($"[EnemyHealth] {gameObject.name} mati! Reward: {rewardOnDeath}");
         Destroy(gameObject);
     }
 }

@@ -17,13 +17,16 @@ public class Bullet : MonoBehaviour
     public GameObject hitEffectPrefab;
 
     // ─── Data dari Tower (diset via kode) ────────────────────────────────────
-    [HideInInspector] public float       damage       = 25f;
-    [HideInInspector] public ElementType element      = ElementType.Fire;
-    [HideInInspector] public bool        splash       = false;
-    [HideInInspector] public float       splashRadius = 1.5f;
-    [HideInInspector] public bool        slow         = false;
-    [HideInInspector] public float       slowAmount   = 0.3f;
-    [HideInInspector] public float       slowDuration = 2f;
+    [HideInInspector] public float damage = 25f;
+    [HideInInspector] public ElementType element = ElementType.Fire;
+    [HideInInspector] public bool splash = false;
+    [HideInInspector] public float splashRadius = 1.5f;
+    [HideInInspector] public bool slow = false;
+    [HideInInspector] public float slowAmount = 0.3f;
+    [HideInInspector] public float slowDuration = 2f;
+    [HideInInspector] public bool burn = false;
+    [HideInInspector] public float burnDamagePerSecond = 5f;
+    [HideInInspector] public float burnDuration = 3f;
 
     private Transform target;
     private float lifetimeTimer;
@@ -74,7 +77,11 @@ public class Bullet : MonoBehaviour
     {
         EnemyHealth eh = enemy.GetComponent<EnemyHealth>();
         if (eh != null)
+        {
             eh.TakeDamage(damage, element);
+            if (burn)
+                eh.ApplyBurn(burnDamagePerSecond, burnDuration);
+        }
 
         if (slow)
             ApplySlow(enemy);
@@ -83,18 +90,27 @@ public class Bullet : MonoBehaviour
     private void SplashDamage(Vector3 center)
     {
         Collider[] hits = Physics.OverlapSphere(center, splashRadius);
+        int hitCount = 0;
+
         foreach (Collider c in hits)
         {
             if (c.CompareTag("Enemy"))
             {
                 EnemyHealth eh = c.GetComponent<EnemyHealth>();
                 if (eh != null)
+                {
                     eh.TakeDamage(damage, element);
+                    if (burn)
+                        eh.ApplyBurn(burnDamagePerSecond, burnDuration);
+                    hitCount++;
+                }
 
                 if (slow)
                     ApplySlow(c.transform);
             }
         }
+
+        Debug.Log($"[Bullet] Splash ({element}) kena {hitCount} musuh dalam radius {splashRadius}.");
     }
 
     private void ApplySlow(Transform enemy)
