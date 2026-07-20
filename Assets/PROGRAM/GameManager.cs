@@ -19,6 +19,29 @@ public class GameManager : MonoBehaviour
     [Header("State saat ini (read-only, buat debug)")]
     [SerializeField] private GameState currentState = GameState.Playing;
 
+    [Header("Score")]
+    [SerializeField] private int totalScore = 0;
+
+    /// <summary>
+    /// Menambahkan poin ke total score selama permainan berlangsung.
+    /// </summary>
+    public void AddScore(int amount)
+    {
+        // Tolak nilai nol, negatif, atau penambahan setelah permainan selesai.
+        if (amount <= 0 || currentState != GameState.Playing)
+            return;
+
+        totalScore += amount;
+    }
+
+    /// <summary>
+    /// Mengembalikan total score saat ini kepada UIManager.
+    /// </summary>
+    public int GetTotalScore()
+    {
+        return totalScore;
+    }
+
     public static event System.Action<GameState> OnStateChanged;
 
     private void Awake()
@@ -45,6 +68,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        totalScore = 0;
         SetState(GameState.Playing);
     }
 
@@ -74,6 +98,32 @@ public class GameManager : MonoBehaviour
         OnStateChanged?.Invoke(currentState);
     }
 
+    /// <summary>
+/// Menghentikan permainan dan mengubah state menjadi Paused.
+/// </summary>
+public void PauseGame()
+{
+    // Pause hanya dapat dilakukan saat permainan sedang berjalan.
+    if (currentState != GameState.Playing)
+        return;
+
+    SetState(GameState.Paused);
+    Time.timeScale = 0f;
+}
+
+    /// <summary>
+    /// Melanjutkan permainan setelah Pause.
+    /// </summary>
+    public void ResumeGame()
+    {
+        // Resume hanya dapat dilakukan ketika game sedang Pause.
+        if (currentState != GameState.Paused)
+            return;
+
+        Time.timeScale = 1f;
+        SetState(GameState.Playing);
+    }
+    
     // ─── Dipanggil dari tombol UI nanti (Restart / Main Menu) ─────────────────
     public void RestartLevel()
     {

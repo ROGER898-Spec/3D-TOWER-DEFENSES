@@ -1,26 +1,32 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MainMenuManager : MonoBehaviour
+public class MainMenuUIManager : MonoBehaviour
 {
-    public void PlayGame()
-    {
-        Debug.Log("Play button clicked!");
-    }
+    [Header("Nama Scene Battle")]
+    [Tooltip("Isi nama scene battle tanpa ekstensi .unity")]
+    public string battleSceneName = "SampleScene";
 
-    public void OpenStageSelect()
+    /// <summary>
+    /// Dipanggil oleh PlayButton untuk membuka Battle Scene.
+    /// </summary>
+    public void OnPlayButtonClicked()
     {
-        Debug.Log("Stage Select button clicked!");
-    }
+        if (string.IsNullOrWhiteSpace(battleSceneName))
+        {
+            Debug.LogError(
+                "[MainMenuUIManager] Battle Scene Name belum diisi."
+            );
+            return;
+        }
 
-    public void OpenSettings()
-    {
-        Debug.Log("Settings button clicked!");
-    }
+        Debug.Log(
+            $"[MainMenuUIManager] Membuka scene: {battleSceneName}"
+        );
 
-    public void ExitGame()
-    {
-        Debug.Log("SAYA AKAN LAWAN!");
-        Application.Quit();
+        // Menghindari game tetap berhenti apabila sebelumnya keluar dari Pause.
+        Time.timeScale = 1f;
+
+        SceneManager.LoadScene(battleSceneName);
     }
 }
