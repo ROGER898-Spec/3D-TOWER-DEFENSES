@@ -27,6 +27,9 @@ public class Bullet : MonoBehaviour
     [HideInInspector] public bool burn = false;
     [HideInInspector] public float burnDamagePerSecond = 5f;
     [HideInInspector] public float burnDuration = 3f;
+    [HideInInspector] public bool stun = false;
+    [HideInInspector] public float stunChance = 0.15f;
+    [HideInInspector] public float stunDuration = 1f;
 
     private Transform target;
     private float lifetimeTimer;
@@ -85,6 +88,13 @@ public class Bullet : MonoBehaviour
 
         if (slow)
             ApplySlow(enemy);
+
+        if (stun && Random.value <= stunChance)
+        {
+            EnemyMovement em = enemy.GetComponent<EnemyMovement>();
+            if (em != null)
+                em.ApplyStun(stunDuration);
+        }
     }
 
     private void SplashDamage(Vector3 center)
@@ -107,6 +117,13 @@ public class Bullet : MonoBehaviour
 
                 if (slow)
                     ApplySlow(c.transform);
+
+                if (stun && Random.value <= stunChance)
+                {
+                    EnemyMovement em = c.GetComponent<EnemyMovement>();
+                    if (em != null)
+                        em.ApplyStun(stunDuration);
+                }
             }
         }
 

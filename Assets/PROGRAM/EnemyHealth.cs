@@ -20,7 +20,12 @@ public class EnemyHealth : MonoBehaviour
     [Header("Effects")]
     public GameObject deathEffectPrefab;
 
-    private float currentHealth;
+    [Header("Debug (Live saat Play Mode)")]
+    [Tooltip("HP saat ini — otomatis update real-time di Inspector selagi Play, tidak perlu diisi manual")]
+    [SerializeField] private float currentHealth;
+    [Tooltip("Persentase HP saat ini (0-1), buat cek cepat tanpa hitung manual")]
+    [SerializeField] private float currentHealthPercent;
+
     private bool isDead = false;
     private Coroutine burnCoroutine;
 
@@ -29,6 +34,7 @@ public class EnemyHealth : MonoBehaviour
     private void Awake()
     {
         currentHealth = maxHealth;
+        UpdateHealthBar();
     }
 
     /// <summary>
@@ -41,6 +47,7 @@ public class EnemyHealth : MonoBehaviour
         float multiplier = 1f + (stage * 0.15f);
         maxHealth *= multiplier;
         currentHealth = maxHealth;
+        UpdateHealthBar();
 
         Debug.Log($"[EnemyHealth] {gameObject.name} discale ke Stage {stage} -> HP: {maxHealth} (x{multiplier})");
     }
@@ -68,9 +75,15 @@ public class EnemyHealth : MonoBehaviour
         if (isDead) return;
 
         currentHealth -= amount;
+        UpdateHealthBar();
 
         if (currentHealth <= 0f)
             Die();
+    }
+
+    private void UpdateHealthBar()
+    {
+        currentHealthPercent = Mathf.Clamp01(GetHealthPercent());
     }
 
     /// <summary>

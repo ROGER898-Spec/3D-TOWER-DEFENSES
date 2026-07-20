@@ -43,6 +43,11 @@ public class Tower : MonoBehaviour
     public float burnDamagePerSecond = 5f;
     public float burnDuration = 3f;
 
+    [Header("Special: Stun (opsional)")]
+    public bool useStunEffect = false;
+    [Range(0f, 1f)] public float stunChance = 0.15f;
+    public float stunDuration = 1f;
+
     [Header("Gizmo")]
     public bool showRangeGizmo = true;
 
@@ -104,7 +109,10 @@ public class Tower : MonoBehaviour
                 break;
 
             case ElementType.Earth:
-                // Menyusul tahap berikutnya (Stone Impact: stun)
+                // Stone Impact: peluang 15% memberikan stun selama 1 detik
+                useStunEffect = true;
+                stunChance = 0.15f;
+                stunDuration = 1f;
                 break;
         }
     }
@@ -254,6 +262,9 @@ public class Tower : MonoBehaviour
                 bullet.burn = useBurnEffect;
                 bullet.burnDamagePerSecond = burnDamagePerSecond;
                 bullet.burnDuration = burnDuration;
+                bullet.stun = useStunEffect;
+                bullet.stunChance = stunChance;
+                bullet.stunDuration = stunDuration;
             }
         }
         else
@@ -272,6 +283,13 @@ public class Tower : MonoBehaviour
             eh.TakeDamage(damage, element);
             if (useBurnEffect)
                 eh.ApplyBurn(burnDamagePerSecond, burnDuration);
+        }
+
+        if (useStunEffect && Random.value <= stunChance)
+        {
+            EnemyMovement em = currentTarget.GetComponent<EnemyMovement>();
+            if (em != null)
+                em.ApplyStun(stunDuration);
         }
 
         if (useSplashDamage)
