@@ -270,23 +270,6 @@ public class UIManager : MonoBehaviour
         );
     }
 
-        /// <summary>
-    /// Dipanggil oleh tombol Restart pada PausePanel.
-    /// Mengulang scene battle dari awal.
-    /// </summary>
-    public void OnRestartButtonClicked()
-    {
-        Debug.Log("[UIManager] Tombol Restart diklik.");
-
-        if (GameManager.Instance != null)
-        {
-            GameManager.Instance.RestartLevel();
-        }
-        else
-        {
-            Debug.LogError("[UIManager] GameManager tidak ditemukan.");
-        }
-    }
 
         /// <summary>
     /// Dipanggil oleh tombol Home pada PausePanel.
