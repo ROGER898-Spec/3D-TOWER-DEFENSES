@@ -18,5 +18,6 @@ MonoBehaviour:
   moveSpeed: 1.8
   rewardOnDeath: 12
   element: 0
-  enemyPrefab: {fileID: 0}
+  enemyPrefab: {fileID: 127481660330259592, guid: 3a3eeabe443436f4a867a9b8f020fa3b,
+    type: 3}
   description: Jalannya cepat, rentan terhadap tower Air.

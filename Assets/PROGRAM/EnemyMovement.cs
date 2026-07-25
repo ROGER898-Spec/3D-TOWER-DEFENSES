@@ -27,6 +27,11 @@ public class EnemyMovement : MonoBehaviour
     [Tooltip("Kecepatan rotasi musuh")]
     public float rotationSpeed = 10f;
 
+    [Header("Stun (Debug, live saat Play Mode)")]
+    [Tooltip("Sedang kena stun (Stone Impact) atau tidak — read-only")]
+    [SerializeField] private bool isStunned = false;
+    [SerializeField] private float stunTimer = 0f;
+
     // ─── Private State ────────────────────────────────────────────────────────
     private Transform[] path;
     private int targetWaypointIndex = 0;
@@ -41,10 +46,41 @@ public class EnemyMovement : MonoBehaviour
         isMoving = (path != null && path.Length > 0);
     }
 
+    // ─── Stone Impact (Earth): hentikan gerak sementara ──────────────────────
+    /// <summary>
+    /// Terapkan stun. Kalau sedang stun dan kena stun lagi, ambil durasi yang
+    /// lebih panjang (tidak menjumlahkan/stacking, cukup extend kalau perlu).
+    /// </summary>
+    public void ApplyStun(float duration)
+    {
+        if (isStunned)
+        {
+            stunTimer = Mathf.Max(stunTimer, duration);
+            return;
+        }
+
+        isStunned = true;
+        stunTimer = duration;
+        Debug.Log($"[EnemyMovement] {gameObject.name} kena STUN selama {duration} detik!");
+    }
+
+    public bool IsStunned() => isStunned;
+
     // ─────────────────────────────────────────────────────────────────────────
 
     private void Update()
     {
+        if (isStunned)
+        {
+            stunTimer -= Time.deltaTime;
+            if (stunTimer <= 0f)
+            {
+                isStunned = false;
+                Debug.Log($"[EnemyMovement] {gameObject.name} stun berakhir, lanjut jalan.");
+            }
+            return; // skip pergerakan selagi stun
+        }
+
         if (!isMoving || path == null || path.Length == 0) return;
         if (targetWaypointIndex >= path.Length) return;
 
@@ -98,7 +134,7 @@ public class EnemyMovement : MonoBehaviour
     }
 
     // ─── Musuh mencapai Main Tower ────────────────────────────────────────────
-   private void ReachMainTower()
+    private void ReachMainTower()
     {
         isMoving = false;
 

@@ -61,9 +61,6 @@ MeshRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_ForceMeshLod: -1
-  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -85,11 +82,9 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!136 &5967285703938685946
 CapsuleCollider:
@@ -129,10 +124,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1493615399701041517, guid: 22e4b6e9de23c9b4b8d3cb95dc1490f9,
         type: 3}
+      propertyPath: element
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1493615399701041517, guid: 22e4b6e9de23c9b4b8d3cb95dc1490f9,
+        type: 3}
       propertyPath: enemyData
       value: 
       objectReference: {fileID: 11400000, guid: c5b76f6786d1fb3439a0ffc45886bdf4,
         type: 2}
+    - target: {fileID: 1493615399701041517, guid: 22e4b6e9de23c9b4b8d3cb95dc1490f9,
+        type: 3}
+      propertyPath: rewardOnDeath
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 5178840488331009661, guid: 22e4b6e9de23c9b4b8d3cb95dc1490f9,
         type: 3}
       propertyPath: m_LocalPosition.x

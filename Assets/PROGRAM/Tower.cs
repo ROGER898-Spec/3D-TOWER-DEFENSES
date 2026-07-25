@@ -38,6 +38,16 @@ public class Tower : MonoBehaviour
     [Range(0f, 1f)] public float slowAmount = 0.3f;
     public float slowDuration = 2f;
 
+    [Header("Special: Burn (opsional)")]
+    public bool useBurnEffect = false;
+    public float burnDamagePerSecond = 5f;
+    public float burnDuration = 3f;
+
+    [Header("Special: Stun (opsional)")]
+    public bool useStunEffect = false;
+    [Range(0f, 1f)] public float stunChance = 0.15f;
+    public float stunDuration = 1f;
+
     [Header("Gizmo")]
     public bool showRangeGizmo = true;
 
@@ -54,12 +64,57 @@ public class Tower : MonoBehaviour
         sourceBlueprint = blueprint;
         currentLevel = 1;
 
-        element  = blueprint.element;
-        damage   = blueprint.GetDamageAtLevel(currentLevel);
-        range    = blueprint.GetRangeAtLevel(currentLevel);
+        element = blueprint.element;
+        damage = blueprint.GetDamageAtLevel(currentLevel);
+        range = blueprint.GetRangeAtLevel(currentLevel);
         fireRate = blueprint.baseFireRate;
 
+        ApplyElementPassive();
+
         Debug.Log($"[Tower] {blueprint.towerName} ({element}) siap. Damage: {damage}, Range: {range}, FireRate: {fireRate}");
+    }
+
+    /// <summary>
+    /// Otomatis nyalakan passive unik sesuai elemen tower (bukan checkbox manual lagi).
+    /// Angka diambil dari tabel balancing "Efek Pasif Unik (Level 1)".
+    ///
+    /// STATUS:
+    ///  - Water (Tidal Slow)     : AKTIF
+    ///  - Wind  (Swift Current)  : AKTIF
+    ///  - Fire  (Burning Core)   : BELUM — butuh sistem damage-over-time terpisah
+    ///  - Earth (Stone Impact)   : BELUM — butuh sistem stun terpisah
+    /// </summary>
+    private void ApplyElementPassive()
+    {
+        switch (element)
+        {
+            case ElementType.Water:
+                // Tidal Slow: kurangi speed musuh 20% selama 2 detik
+                useSlowEffect = true;
+                slowAmount = 0.2f;
+                slowDuration = 2f;
+                break;
+
+            case ElementType.Wind:
+                // Swift Current: serangan area kecil (splash) ke musuh terdekat
+                useSplashDamage = true;
+                splashRadius = 1.5f;
+                break;
+
+            case ElementType.Fire:
+                // Burning Core: burn 5 HP/detik selama 3 detik
+                useBurnEffect = true;
+                burnDamagePerSecond = 5f;
+                burnDuration = 3f;
+                break;
+
+            case ElementType.Earth:
+                // Stone Impact: peluang 15% memberikan stun selama 1 detik
+                useStunEffect = true;
+                stunChance = 0.15f;
+                stunDuration = 1f;
+                break;
+        }
     }
 
     // ─── Upgrade level (dipanggil nanti dari UI upgrade) ──────────────────────
@@ -70,7 +125,7 @@ public class Tower : MonoBehaviour
 
         currentLevel++;
         damage = sourceBlueprint.GetDamageAtLevel(currentLevel);
-        range  = sourceBlueprint.GetRangeAtLevel(currentLevel);
+        range = sourceBlueprint.GetRangeAtLevel(currentLevel);
         return true;
     }
 
@@ -197,13 +252,19 @@ public class Tower : MonoBehaviour
             if (bullet != null)
             {
                 bullet.SetTarget(currentTarget);
-                bullet.damage       = damage;
-                bullet.element      = element;
-                bullet.splash       = useSplashDamage;
+                bullet.damage = damage;
+                bullet.element = element;
+                bullet.splash = useSplashDamage;
                 bullet.splashRadius = splashRadius;
-                bullet.slow         = useSlowEffect;
-                bullet.slowAmount   = slowAmount;
+                bullet.slow = useSlowEffect;
+                bullet.slowAmount = slowAmount;
                 bullet.slowDuration = slowDuration;
+                bullet.burn = useBurnEffect;
+                bullet.burnDamagePerSecond = burnDamagePerSecond;
+                bullet.burnDuration = burnDuration;
+                bullet.stun = useStunEffect;
+                bullet.stunChance = stunChance;
+                bullet.stunDuration = stunDuration;
             }
         }
         else
@@ -218,7 +279,18 @@ public class Tower : MonoBehaviour
 
         EnemyHealth eh = currentTarget.GetComponent<EnemyHealth>();
         if (eh != null)
+        {
             eh.TakeDamage(damage, element);
+            if (useBurnEffect)
+                eh.ApplyBurn(burnDamagePerSecond, burnDuration);
+        }
+
+        if (useStunEffect && Random.value <= stunChance)
+        {
+            EnemyMovement em = currentTarget.GetComponent<EnemyMovement>();
+            if (em != null)
+                em.ApplyStun(stunDuration);
+        }
 
         if (useSplashDamage)
             ApplySplash(currentTarget.position);

@@ -18,5 +18,6 @@ MonoBehaviour:
   moveSpeed: 1
   rewardOnDeath: 20
   element: 2
-  enemyPrefab: {fileID: 0}
+  enemyPrefab: {fileID: 1634998678925555600, guid: a166f05e339f543479de32a535a24d41,
+    type: 3}
   description: Kecepatan rata-rata.

@@ -18,5 +18,6 @@ MonoBehaviour:
   moveSpeed: 0.8
   rewardOnDeath: 25
   element: 3
-  enemyPrefab: {fileID: 0}
+  enemyPrefab: {fileID: 817740997536655395, guid: 3f29f90728d98614c8276c3280bc6769,
+    type: 3}
   description: Lambat, tapi darahnya tebal (tanker).
