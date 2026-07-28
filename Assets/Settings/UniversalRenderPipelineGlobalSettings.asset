@@ -33,6 +33,7 @@ MonoBehaviour:
   m_Settings:
     m_SettingsList:
       m_List:
+<<<<<<< Updated upstream
       - rid: 7817613889726578778
       - rid: 7817613889726578779
       - rid: 7817613889726578780
@@ -59,6 +60,34 @@ MonoBehaviour:
       - rid: 7817613889726578801
       - rid: 7817613889726578802
       - rid: 7817613889726578803
+=======
+      - rid: 7817613844770455552
+      - rid: 7817613844770455553
+      - rid: 7817613844770455554
+      - rid: 7817613844770455555
+      - rid: 7817613844770455556
+      - rid: 7817613844770455557
+      - rid: 7817613844770455558
+      - rid: 7817613844770455559
+      - rid: 7817613844770455560
+      - rid: 7817613844770455561
+      - rid: 7817613844770455562
+      - rid: 7817613844770455563
+      - rid: 7817613844770455564
+      - rid: 7817613844770455565
+      - rid: 7817613844770455566
+      - rid: 7817613844770455567
+      - rid: 7817613844770455568
+      - rid: 7817613844770455569
+      - rid: 7817613844770455570
+      - rid: 7817613844770455571
+      - rid: 7817613844770455572
+      - rid: 7817613844770455573
+      - rid: 7817613844770455574
+      - rid: 7817613844770455575
+      - rid: 7817613844770455576
+      - rid: 7817613844770455577
+>>>>>>> Stashed changes
     m_RuntimeSettings:
       m_List: []
   m_AssetVersion: 8
@@ -91,7 +120,11 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
+<<<<<<< Updated upstream
     - rid: 7817613889726578778
+=======
+    - rid: 7817613844770455552
+>>>>>>> Stashed changes
       type: {class: ScreenSpaceAmbientOcclusionDynamicResources, ns: UnityEngine.Rendering.Universal,
         asm: Unity.RenderPipelines.Universal.Runtime}
       data:
@@ -104,7 +137,11 @@ MonoBehaviour:
         - {fileID: 2800000, guid: 3302065f671a8450b82c9ddf07426f3a, type: 3}
         - {fileID: 2800000, guid: 56a77a3e8d64f47b6afe9e3c95cb57d5, type: 3}
         m_Version: 0
+<<<<<<< Updated upstream
     - rid: 7817613889726578779
+=======
+    - rid: 7817613844770455553
+>>>>>>> Stashed changes
       type: {class: PostProcessData/TextureResources, ns: UnityEngine.Rendering.Universal,
         asm: Unity.RenderPipelines.Universal.Runtime}
       data:
@@ -155,7 +192,11 @@ MonoBehaviour:
         smaaAreaTex: {fileID: 2800000, guid: d1f1048909d55cd4fa1126ab998f617e, type: 3}
         smaaSearchTex: {fileID: 2800000, guid: 51eee22c2a633ef4aada830eed57c3fd, type: 3}
         m_TexturesResourcesVersion: 0
+<<<<<<< Updated upstream
     - rid: 7817613889726578780
+=======
+    - rid: 7817613844770455554
+>>>>>>> Stashed changes
       type: {class: UniversalRenderPipelineEditorMaterials, ns: UnityEngine.Rendering.Universal,
         asm: Unity.RenderPipelines.Universal.Runtime}
       data:
@@ -171,7 +212,11 @@ MonoBehaviour:
           type: 2}
         m_DefaultSpriteMaterial: {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40,
           type: 2}
+<<<<<<< Updated upstream
     - rid: 7817613889726578781
+=======
+    - rid: 7817613844770455555
+>>>>>>> Stashed changes
       type: {class: URPShaderStrippingSetting, ns: UnityEngine.Rendering.Universal,
         asm: Unity.RenderPipelines.Universal.Runtime}
       data:
@@ -179,7 +224,11 @@ MonoBehaviour:
         m_StripUnusedPostProcessingVariants: 1
         m_StripUnusedVariants: 1
         m_StripScreenCoordOverrideVariants: 1
+<<<<<<< Updated upstream
     - rid: 7817613889726578782
+=======
+    - rid: 7817613844770455556
+>>>>>>> Stashed changes
       type: {class: UniversalRenderPipelineDebugShaders, ns: UnityEngine.Rendering.Universal,
         asm: Unity.RenderPipelines.Universal.Runtime}
       data:
@@ -189,7 +238,11 @@ MonoBehaviour:
           type: 3}
         m_ProbeVolumeSamplingDebugComputeShader: {fileID: 7200000, guid: 53626a513ea68ce47b59dc1299fe3959,
           type: 3}
+<<<<<<< Updated upstream
     - rid: 7817613889726578783
+=======
+    - rid: 7817613844770455557
+>>>>>>> Stashed changes
       type: {class: PostProcessData/ShaderResources, ns: UnityEngine.Rendering.Universal,
         asm: Unity.RenderPipelines.Universal.Runtime}
       data:
@@ -222,13 +275,21 @@ MonoBehaviour:
         finalPostPassPS: {fileID: 4800000, guid: c49e63ed1bbcb334780a3bd19dfed403,
           type: 3}
         m_ShaderResourcesVersion: 0
+<<<<<<< Updated upstream
     - rid: 7817613889726578784
+=======
+    - rid: 7817613844770455558
+>>>>>>> Stashed changes
       type: {class: ScreenSpaceAmbientOcclusionPersistentResources, ns: UnityEngine.Rendering.Universal,
         asm: Unity.RenderPipelines.Universal.Runtime}
       data:
         m_Shader: {fileID: 4800000, guid: 0849e84e3d62649e8882e9d6f056a017, type: 3}
         m_Version: 0
+<<<<<<< Updated upstream
     - rid: 7817613889726578785
+=======
+    - rid: 7817613844770455559
+>>>>>>> Stashed changes
       type: {class: UniversalRendererResources, ns: UnityEngine.Rendering.Universal,
         asm: Unity.RenderPipelines.Universal.Runtime}
       data:
@@ -240,7 +301,11 @@ MonoBehaviour:
           type: 3}
         m_DBufferClear: {fileID: 4800000, guid: f056d8bd2a1c7e44e9729144b4c70395,
           type: 3}
+<<<<<<< Updated upstream
     - rid: 7817613889726578786
+=======
+    - rid: 7817613844770455560
+>>>>>>> Stashed changes
       type: {class: UniversalRenderPipelineRuntimeXRResources, ns: UnityEngine.Rendering.Universal,
         asm: Unity.RenderPipelines.Universal.Runtime}
       data:
@@ -250,7 +315,11 @@ MonoBehaviour:
           type: 3}
         m_xrMotionVector: {fileID: 4800000, guid: f89aac1e4f84468418fe30e611dff395,
           type: 3}
+<<<<<<< Updated upstream
     - rid: 7817613889726578787
+=======
+    - rid: 7817613844770455561
+>>>>>>> Stashed changes
       type: {class: Renderer2DResources, ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.Runtime}
       data:
         m_Version: 0
@@ -274,7 +343,11 @@ MonoBehaviour:
           type: 2}
         m_DefaultMaskMaterial: {fileID: 2100000, guid: 15d0c3709176029428a0da2f8cecf0b5,
           type: 2}
+<<<<<<< Updated upstream
     - rid: 7817613889726578788
+=======
+    - rid: 7817613844770455562
+>>>>>>> Stashed changes
       type: {class: UniversalRenderPipelineRuntimeTextures, ns: UnityEngine.Rendering.Universal,
         asm: Unity.RenderPipelines.Universal.Runtime}
       data:
@@ -285,7 +358,11 @@ MonoBehaviour:
           type: 3}
         m_DebugFontTex: {fileID: 2800000, guid: 26a413214480ef144b2915d6ff4d0beb,
           type: 3}
+<<<<<<< Updated upstream
     - rid: 7817613889726578789
+=======
+    - rid: 7817613844770455563
+>>>>>>> Stashed changes
       type: {class: UniversalRenderPipelineRuntimeShaders, ns: UnityEngine.Rendering.Universal,
         asm: Unity.RenderPipelines.Universal.Runtime}
       data:
@@ -304,19 +381,31 @@ MonoBehaviour:
           type: 3}
         m_TerrainDetailGrass: {fileID: 4800000, guid: e507fdfead5ca47e8b9a768b51c291a1,
           type: 3}
+<<<<<<< Updated upstream
     - rid: 7817613889726578790
+=======
+    - rid: 7817613844770455564
+>>>>>>> Stashed changes
       type: {class: URPDefaultVolumeProfileSettings, ns: UnityEngine.Rendering.Universal,
         asm: Unity.RenderPipelines.Universal.Runtime}
       data:
         m_Version: 0
         m_VolumeProfile: {fileID: 11400000, guid: 238cd62f6b58cb04e9c94749c4a015a7,
           type: 2}
+<<<<<<< Updated upstream
     - rid: 7817613889726578791
+=======
+    - rid: 7817613844770455565
+>>>>>>> Stashed changes
       type: {class: RenderGraphSettings, ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.Runtime}
       data:
         m_Version: 0
         m_EnableRenderCompatibilityMode: 1
+<<<<<<< Updated upstream
     - rid: 7817613889726578792
+=======
+    - rid: 7817613844770455566
+>>>>>>> Stashed changes
       type: {class: UniversalRenderPipelineEditorShaders, ns: UnityEngine.Rendering.Universal,
         asm: Unity.RenderPipelines.Universal.Runtime}
       data:
@@ -338,13 +427,21 @@ MonoBehaviour:
           type: 3}
         m_DefaultSpeedTree9Shader: {fileID: -6465566751694194690, guid: cbd3e1cc4ae141c42a30e33b4d666a61,
           type: 3}
+<<<<<<< Updated upstream
     - rid: 7817613889726578793
+=======
+    - rid: 7817613844770455567
+>>>>>>> Stashed changes
       type: {class: UniversalRenderPipelineEditorAssets, ns: UnityEngine.Rendering.Universal,
         asm: Unity.RenderPipelines.Universal.Runtime}
       data:
         m_DefaultSettingsVolumeProfile: {fileID: 11400000, guid: eda47df5b85f4f249abf7abd73db2cb2,
           type: 2}
+<<<<<<< Updated upstream
     - rid: 7817613889726578794
+=======
+    - rid: 7817613844770455568
+>>>>>>> Stashed changes
       type: {class: GPUResidentDrawerResources, ns: UnityEngine.Rendering, asm: Unity.RenderPipelines.GPUDriven.Runtime}
       data:
         m_Version: 0
@@ -366,13 +463,21 @@ MonoBehaviour:
           type: 3}
         m_DebugOccluderPS: {fileID: 4800000, guid: b3c92426a88625841ab15ca6a7917248,
           type: 3}
+<<<<<<< Updated upstream
     - rid: 7817613889726578795
+=======
+    - rid: 7817613844770455569
+>>>>>>> Stashed changes
       type: {class: RenderGraphGlobalSettings, ns: UnityEngine.Rendering, asm: Unity.RenderPipelines.Core.Runtime}
       data:
         m_version: 0
         m_EnableCompilationCaching: 1
         m_EnableValidityChecks: 1
+<<<<<<< Updated upstream
     - rid: 7817613889726578796
+=======
+    - rid: 7817613844770455570
+>>>>>>> Stashed changes
       type: {class: ProbeVolumeDebugResources, ns: UnityEngine.Rendering, asm: Unity.RenderPipelines.Core.Runtime}
       data:
         m_Version: 1
@@ -388,13 +493,21 @@ MonoBehaviour:
           type: 3}
         numbersDisplayTex: {fileID: 2800000, guid: 73fe53b428c5b3440b7e87ee830b608a,
           type: 3}
+<<<<<<< Updated upstream
     - rid: 7817613889726578797
+=======
+    - rid: 7817613844770455571
+>>>>>>> Stashed changes
       type: {class: STP/RuntimeResources, ns: UnityEngine.Rendering, asm: Unity.RenderPipelines.Core.Runtime}
       data:
         m_setupCS: {fileID: 7200000, guid: 33be2e9a5506b2843bdb2bdff9cad5e1, type: 3}
         m_preTaaCS: {fileID: 7200000, guid: a679dba8ec4d9ce45884a270b0e22dda, type: 3}
         m_taaCS: {fileID: 7200000, guid: 3923900e2b41b5e47bc25bfdcbcdc9e6, type: 3}
+<<<<<<< Updated upstream
     - rid: 7817613889726578798
+=======
+    - rid: 7817613844770455572
+>>>>>>> Stashed changes
       type: {class: ProbeVolumeRuntimeResources, ns: UnityEngine.Rendering, asm: Unity.RenderPipelines.Core.Runtime}
       data:
         m_Version: 1
@@ -404,20 +517,32 @@ MonoBehaviour:
           type: 3}
         probeVolumeUploadDataL2CS: {fileID: 7200000, guid: 6196f34ed825db14b81fb3eb0ea8d931,
           type: 3}
+<<<<<<< Updated upstream
     - rid: 7817613889726578799
+=======
+    - rid: 7817613844770455573
+>>>>>>> Stashed changes
       type: {class: RenderGraphUtilsResources, ns: UnityEngine.Rendering.RenderGraphModule.Util,
         asm: Unity.RenderPipelines.Core.Runtime}
       data:
         m_Version: 0
         m_CoreCopyPS: {fileID: 4800000, guid: 12dc59547ea167a4ab435097dd0f9add, type: 3}
+<<<<<<< Updated upstream
     - rid: 7817613889726578800
+=======
+    - rid: 7817613844770455574
+>>>>>>> Stashed changes
       type: {class: ShaderStrippingSetting, ns: UnityEngine.Rendering, asm: Unity.RenderPipelines.Core.Runtime}
       data:
         m_Version: 0
         m_ExportShaderVariants: 1
         m_ShaderVariantLogLevel: 0
         m_StripRuntimeDebugShaders: 1
+<<<<<<< Updated upstream
     - rid: 7817613889726578801
+=======
+    - rid: 7817613844770455575
+>>>>>>> Stashed changes
       type: {class: ProbeVolumeBakingResources, ns: UnityEngine.Rendering, asm: Unity.RenderPipelines.Core.Runtime}
       data:
         m_Version: 1
@@ -439,12 +564,20 @@ MonoBehaviour:
           type: 3}
         renderingLayerRT: {fileID: -5126288278712620388, guid: 94a070d33e408384bafc1dea4a565df9,
           type: 3}
+<<<<<<< Updated upstream
     - rid: 7817613889726578802
+=======
+    - rid: 7817613844770455576
+>>>>>>> Stashed changes
       type: {class: ProbeVolumeGlobalSettings, ns: UnityEngine.Rendering, asm: Unity.RenderPipelines.Core.Runtime}
       data:
         m_Version: 1
         m_ProbeVolumeDisableStreamingAssets: 0
+<<<<<<< Updated upstream
     - rid: 7817613889726578803
+=======
+    - rid: 7817613844770455577
+>>>>>>> Stashed changes
       type: {class: IncludeAdditionalRPAssets, ns: UnityEngine.Rendering, asm: Unity.RenderPipelines.Core.Runtime}
       data:
         m_version: 0
