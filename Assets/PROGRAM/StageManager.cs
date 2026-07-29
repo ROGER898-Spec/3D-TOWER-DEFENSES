@@ -66,8 +66,24 @@ public class StageManager : MonoBehaviour
             Debug.LogWarning("[StageManager] Belum ada data stage di array 'Stages'!");
             return;
         }
+        
+        int stageIndexToStart = 0;
 
-        BeginStage(0);
+        if (PlayerPrefs.HasKey("RetryStageIndex"))
+        {
+            stageIndexToStart = PlayerPrefs.GetInt("RetryStageIndex");
+
+            PlayerPrefs.DeleteKey("RetryStageIndex");
+            PlayerPrefs.Save();
+        }
+
+        stageIndexToStart = Mathf.Clamp(
+            stageIndexToStart,
+            0,
+            stages.Length - 1
+        );
+
+        BeginStage(stageIndexToStart);
     }
 
     private void BeginStage(int index)
@@ -127,6 +143,7 @@ public class StageManager : MonoBehaviour
     }
     public int GetCurrentStageNumber() => stages.Length > 0 ? stages[currentStageIndex].stageNumber : 1;
     public int GetCurrentStageDisplay() => currentStageIndex + 1;
+    public int GetCurrentStageIndex() => currentStageIndex; //untuk tryagain
     public int GetTotalStages() => stages.Length;
 
     public void ContinueToNextStage()

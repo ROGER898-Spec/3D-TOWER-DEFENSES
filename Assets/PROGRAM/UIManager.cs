@@ -31,7 +31,6 @@ public class UIManager : MonoBehaviour
     public GameObject pausePanel;
 
     [Header("Panel Awal dari Main Menu")]
-
     [Tooltip("Drag HUD dari Canvas")]
     public GameObject hudPanel;
 
@@ -43,7 +42,7 @@ public class UIManager : MonoBehaviour
 
     [Tooltip("Drag InventoryPanel dari Canvas")]
     public GameObject inventoryPanel;
-
+    
     [Header("Kontrol Volume")]
     [Tooltip("Drag GameObject VolumeSlider dari PausePanel")]
     public GameObject volumeSlider;
@@ -308,6 +307,26 @@ private PanelReturnTarget panelReturnTarget =
                 "[UIManager] StageManager belum di-drag."
             );
         }
+    }
+
+
+    public void OnTryAgainButtonClicked()
+    {
+        if (stageManager != null)
+        {
+            PlayerPrefs.SetInt(
+                "RetryStageIndex",
+                stageManager.GetCurrentStageIndex()
+            );
+
+            PlayerPrefs.Save();
+        }
+
+        Time.timeScale = 1f;
+
+        SceneManager.LoadScene(
+            SceneManager.GetActiveScene().buildIndex
+        );
     }
 
         /// <summary>

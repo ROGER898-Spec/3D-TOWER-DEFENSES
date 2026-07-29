@@ -7,6 +7,9 @@ public class MainMenuUIManager : MonoBehaviour
     [Tooltip("Isi nama scene battle tanpa ekstensi .unity")]
     public string battleSceneName = "SampleScene";
 
+    [Header("Panel Main Menu")]
+    [Tooltip("Drag HowToPlayPanel dari Canvas")]
+    public GameObject howToPlayPanel;
 
     /// Membuka Battle Scene dengan tampilan awal HUD.
     public void OnPlayButtonClicked()
@@ -48,6 +51,30 @@ public class MainMenuUIManager : MonoBehaviour
         );
 
         LoadBattleScene();
+    }
+
+    /// Membuka panel How To Play tanpa berpindah scene.
+    public void OnHowToPlayButtonClicked()
+    {
+        if (howToPlayPanel == null)
+        {
+            Debug.LogError(
+                "[MainMenuUIManager] HowToPlayPanel belum di-drag."
+            );
+            return;
+        }
+
+        howToPlayPanel.SetActive(true);
+        howToPlayPanel.transform.SetAsLastSibling();
+    }
+
+    /// Menutup panel How To Play.
+    public void OnCloseHowToPlayButtonClicked()
+    {
+        if (howToPlayPanel != null)
+        {
+            howToPlayPanel.SetActive(false);
+        }
     }
     
     private void LoadBattleScene()
