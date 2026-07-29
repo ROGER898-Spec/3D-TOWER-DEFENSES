@@ -2,6 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// WaveSpawner - Sistem untuk spawn musuh per gelombang (wave).
+/// Letakkan script ini pada GameObject "WaveSpawner" di scene.
+/// Pastikan ada WaypointManager di scene untuk menentukan jalur musuh.
+/// </summary>
 public class WaveSpawner : MonoBehaviour
 {
     public enum SpawnState { SPAWNING, WAITING, COUNTING }
@@ -10,9 +15,26 @@ public class WaveSpawner : MonoBehaviour
     public class Wave
     {
         public string waveName = "Wave 1";
+
+        [Tooltip("[LAMA] 1 jenis musuh saja. Dipakai kalau 'Enemy Prefabs' di bawah kosong.")]
         public GameObject enemyPrefab;
+
+        [Tooltip("[BARU] Isi 2+ jenis musuh di sini supaya wave ini campuran acak. Kosongkan untuk pakai 'Enemy Prefab' lama di atas.")]
+        public GameObject[] enemyPrefabs;
+
         public int count = 10;
         public float spawnRate = 0.5f;
+
+        /// <summary>Pilih 1 prefab musuh secara acak dari "enemyPrefabs", fallback ke "enemyPrefab" kalau kosong</summary>
+        public GameObject GetRandomEnemyPrefab()
+        {
+            if (enemyPrefabs != null && enemyPrefabs.Length > 0)
+            {
+                int idx = Random.Range(0, enemyPrefabs.Length);
+                return enemyPrefabs[idx];
+            }
+            return enemyPrefab;
+        }
     }
 
     [Header("Wave Settings")]
@@ -110,7 +132,7 @@ public class WaveSpawner : MonoBehaviour
 
         for (int i = 0; i < wave.count; i++)
         {
-            SpawnEnemy(wave.enemyPrefab);
+            SpawnEnemy(wave.GetRandomEnemyPrefab());
             yield return new WaitForSeconds(1f / wave.spawnRate);
         }
 
@@ -129,6 +151,9 @@ public class WaveSpawner : MonoBehaviour
         }
 
         GameObject enemy = Instantiate(prefab, spawnPoint.position, spawnPoint.rotation);
+
+        if (showDebugLog)
+            Debug.Log($"[WaveSpawner] Spawn musuh: {prefab.name}");
 
         EnemyMovement em = enemy.GetComponent<EnemyMovement>();
         if (em != null)
