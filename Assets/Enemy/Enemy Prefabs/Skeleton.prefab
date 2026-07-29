@@ -124,19 +124,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1493615399701041517, guid: 22e4b6e9de23c9b4b8d3cb95dc1490f9,
         type: 3}
-      propertyPath: element
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1493615399701041517, guid: 22e4b6e9de23c9b4b8d3cb95dc1490f9,
-        type: 3}
       propertyPath: enemyData
       value: 
       objectReference: {fileID: 11400000, guid: 89570296ec982814d87d8efb7be634f2,
         type: 2}
-    - target: {fileID: 1493615399701041517, guid: 22e4b6e9de23c9b4b8d3cb95dc1490f9,
+    - target: {fileID: 4691510115805478864, guid: 22e4b6e9de23c9b4b8d3cb95dc1490f9,
         type: 3}
-      propertyPath: rewardOnDeath
-      value: 20
+      propertyPath: m_UseGravity
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5178840488331009661, guid: 22e4b6e9de23c9b4b8d3cb95dc1490f9,
         type: 3}
