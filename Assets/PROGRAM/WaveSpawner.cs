@@ -2,11 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// WaveSpawner - Sistem untuk spawn musuh per gelombang (wave).
-/// Letakkan script ini pada GameObject "WaveSpawner" di scene.
-/// Pastikan ada WaypointManager di scene untuk menentukan jalur musuh.
-/// </summary>
 public class WaveSpawner : MonoBehaviour
 {
     public enum SpawnState { SPAWNING, WAITING, COUNTING }
@@ -137,7 +132,7 @@ public class WaveSpawner : MonoBehaviour
 
         EnemyMovement em = enemy.GetComponent<EnemyMovement>();
         if (em != null)
-            em.InitPath(WaypointManager.Instance.GetWaypoints());
+            em.InitPath(WaypointManager.Instance.GetRandomPath());
 
         // ★ BARU: terapkan scaling HP sesuai stage sebelum musuh mulai jalan
         EnemyHealth eh = enemy.GetComponent<EnemyHealth>();
