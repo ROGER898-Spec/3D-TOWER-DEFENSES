@@ -216,7 +216,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f1aaaf6cf74f2243a36885a240beca7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 10
+  range: 38.05
   damage: 25
   fireRate: 1
   element: 0
@@ -233,4 +233,7 @@ MonoBehaviour:
   useBurnEffect: 1
   burnDamagePerSecond: 5
   burnDuration: 3
+  useStunEffect: 0
+  stunChance: 0.15
+  stunDuration: 1
   showRangeGizmo: 1
