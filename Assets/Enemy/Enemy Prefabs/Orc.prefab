@@ -128,6 +128,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: c5b76f6786d1fb3439a0ffc45886bdf4,
         type: 2}
+    - target: {fileID: 1493615399701041517, guid: 22e4b6e9de23c9b4b8d3cb95dc1490f9,
+        type: 3}
+      propertyPath: maxHealth
+      value: 120
+      objectReference: {fileID: 0}
     - target: {fileID: 4691510115805478864, guid: 22e4b6e9de23c9b4b8d3cb95dc1490f9,
         type: 3}
       propertyPath: m_UseGravity

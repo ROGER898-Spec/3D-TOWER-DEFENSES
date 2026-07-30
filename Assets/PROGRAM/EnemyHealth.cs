@@ -40,16 +40,21 @@ public class EnemyHealth : MonoBehaviour
     /// <summary>
     /// Terapkan scaling HP sesuai stage, formula dari data balancing:
     /// HP Stage = Base HP x (1 + (Stage x 0.15))
+    /// DITAMBAH multiplier Difficulty (Easy/Normal/Hard) dari DifficultyManager.
     /// Dipanggil oleh WaveSpawner TEPAT SETELAH Instantiate, sebelum musuh mulai jalan.
     /// </summary>
     public void ApplyStageScaling(int stage)
     {
-        float multiplier = 1f + (stage * 0.15f);
-        maxHealth *= multiplier;
+        float stageMultiplier = 1f + (stage * 0.15f);
+        float difficultyMultiplier = DifficultyManager.Instance != null
+            ? DifficultyManager.Instance.GetEnemyHealthMultiplier()
+            : 1f; // fallback kalau DifficultyManager belum ada di scene (tidak error, cuma dianggap Normal)
+
+        maxHealth *= stageMultiplier * difficultyMultiplier;
         currentHealth = maxHealth;
         UpdateHealthBar();
 
-        Debug.Log($"[EnemyHealth] {gameObject.name} discale ke Stage {stage} -> HP: {maxHealth} (x{multiplier})");
+        Debug.Log($"[EnemyHealth] {gameObject.name} discale Stage {stage} (x{stageMultiplier}) x Difficulty (x{difficultyMultiplier}) -> HP: {maxHealth}");
     }
 
     public void TakeDamage(float amount)
