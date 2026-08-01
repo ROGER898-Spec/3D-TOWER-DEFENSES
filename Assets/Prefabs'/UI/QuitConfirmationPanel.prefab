@@ -943,6 +943,7 @@ GameObject:
   - component: {fileID: 3380894518489394462}
   - component: {fileID: 3455351635083673857}
   - component: {fileID: 5433603024662304135}
+  - component: {fileID: 6554616984524773522}
   m_Layer: 5
   m_Name: QuitConfirmationPanel
   m_TagString: Untagged
@@ -1020,3 +1021,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 989750dccacb03f40981449d3d0f9b3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6554616984524773522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9216995742885194156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8caf8a168c8580748aa44aeb15bae5a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clickSFX: {fileID: 8300000, guid: e097fb443e7b3d044870d7c481069431, type: 3}

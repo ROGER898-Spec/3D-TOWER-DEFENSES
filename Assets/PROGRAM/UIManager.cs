@@ -47,6 +47,9 @@ public class UIManager : MonoBehaviour
     [Tooltip("Drag GameObject VolumeSlider dari PausePanel")]
     public GameObject volumeSlider;
 
+    [Tooltip("Drag instance SettingsPanel yang memiliki AudioSettingsUI")]
+    public AudioSettingsUI audioSettingsUI;
+
     [Header("Informasi Panel Menang")]
     [Tooltip("Drag StageCompletedText dari VictoryPanel")]
     public TMP_Text stageCompletedText;
@@ -393,6 +396,11 @@ private PanelReturnTarget panelReturnTarget =
         bool sliderAkanDitampilkan = !volumeSlider.activeSelf;
 
         volumeSlider.SetActive(sliderAkanDitampilkan);
+
+        if (sliderAkanDitampilkan && audioSettingsUI != null)
+        {
+            audioSettingsUI.SyncPauseMusicSlider();
+        }
 
         Debug.Log(
             sliderAkanDitampilkan

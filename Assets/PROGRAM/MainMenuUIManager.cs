@@ -11,9 +11,21 @@ public class MainMenuUIManager : MonoBehaviour
     [Tooltip("Drag HowToPlayPanel dari Canvas")]
     public GameObject howToPlayPanel;
 
+    [Tooltip("Drag object MainMenu yang berisi tombol Play, Setting, How, dan Quit")]
+    public GameObject mainMenuButtons;
+
+    [Tooltip("Drag instance prefab SettingsPanel dari Hierarchy")]
+    public GameObject settingsPanel;
+
+     private void Start()
+    {
+        AudioManager.Instance.PlayMainMenuMusic();
+    }
+    
     /// Membuka Battle Scene dengan tampilan awal HUD.
     public void OnPlayButtonClicked()
     {
+        TutorialModeManager.isTutorialMode = false;
         // Menyimpan permintaan bahwa HUD harus menjadi tampilan awal.
         BattleSceneRequest.SetRequestedPanel(
             BattleEntryPanel.HUD
@@ -43,29 +55,29 @@ public class MainMenuUIManager : MonoBehaviour
         LoadBattleScene();
     }
 
-    /// Membuka Battle Scene dan meminta SettingsPanel ditampilkan.
+    
     public void OnSettingButtonClicked()
     {
-        BattleSceneRequest.SetRequestedPanel(
-            BattleEntryPanel.Settings
-        );
+        mainMenuButtons.SetActive(false);
+        settingsPanel.SetActive(true);
+    }
 
-        LoadBattleScene();
+   public void OnCloseSettingButtonClicked()
+    {
+        settingsPanel.SetActive(false);
+        mainMenuButtons.SetActive(true);
     }
 
     /// Membuka panel How To Play tanpa berpindah scene.
     public void OnHowToPlayButtonClicked()
     {
-        if (howToPlayPanel == null)
-        {
-            Debug.LogError(
-                "[MainMenuUIManager] HowToPlayPanel belum di-drag."
-            );
-            return;
-        }
+        TutorialModeManager.isTutorialMode = true;
 
-        howToPlayPanel.SetActive(true);
-        howToPlayPanel.transform.SetAsLastSibling();
+        BattleSceneRequest.SetRequestedPanel(
+            BattleEntryPanel.HUD
+        );
+
+        LoadBattleScene();
     }
 
     /// Menutup panel How To Play.

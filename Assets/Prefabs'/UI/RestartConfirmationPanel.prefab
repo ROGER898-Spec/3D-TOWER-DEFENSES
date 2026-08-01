@@ -944,6 +944,7 @@ GameObject:
   - component: {fileID: 3380894518489394462}
   - component: {fileID: 3455351635083673857}
   - component: {fileID: 1393590134418508482}
+  - component: {fileID: 2435517808007478412}
   m_Layer: 5
   m_Name: RestartConfirmationPanel
   m_TagString: Untagged
@@ -1021,3 +1022,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 374727cf4268c81479a4ef73538b2c0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2435517808007478412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9216995742885194156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8caf8a168c8580748aa44aeb15bae5a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clickSFX: {fileID: 8300000, guid: e097fb443e7b3d044870d7c481069431, type: 3}

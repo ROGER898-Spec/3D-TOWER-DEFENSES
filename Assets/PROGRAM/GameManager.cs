@@ -70,6 +70,8 @@ public class GameManager : MonoBehaviour
     {
         totalScore = 0;
         SetState(GameState.Playing);
+
+        AudioManager.Instance.PlayBattleMusic();
     }
 
     // ─── Handler event kalah ───────────────────────────────────────────────────
