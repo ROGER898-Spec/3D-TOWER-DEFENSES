@@ -64,6 +64,14 @@ public class GameManager : MonoBehaviour
         if (currentState == GameState.Lose || currentState == GameState.Win) return;
 
         Debug.Log("[GameManager] MENANG — semua STAGE berhasil dilewati!");
+
+        MainTower tower = FindAnyObjectByType<MainTower>();
+        if (tower != null)
+        {
+            int stars = tower.GetStarRating();
+            Debug.Log($"[GameManager] Hasil akhir: {stars} BINTANG (HP Main Tower: {tower.GetCurrentLives()}/{tower.GetMaxLives()} = {tower.GetHealthPercent() * 100f}%)");
+        }
+
         SetState(GameState.Win);
         Time.timeScale = 0f;
     }

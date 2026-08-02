@@ -14,6 +14,10 @@ public class EnemyHealth : MonoBehaviour
     [Header("Element")]
     public ElementType element = ElementType.Fire;
 
+    [Header("Boss")]
+    [Tooltip("Centang kalau musuh ini boss. Dipakai MainTower.cs untuk cek instant-destroy kalau boss sampai lolos.")]
+    public bool isBoss = false;
+
     [Header("Reward")]
     public int rewardOnDeath = 10;
 

@@ -21,7 +21,7 @@ MonoBehaviour:
     type: 3}
   baseDamage: 25
   baseFireRate: 0.83
-  baseRange: 5
+  baseRange: 12.5
   cost: 100
   levels:
   - level: 2
