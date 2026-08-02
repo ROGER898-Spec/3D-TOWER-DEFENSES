@@ -141,7 +141,20 @@ public class EnemyMovement : MonoBehaviour
         MainTower tower = FindAnyObjectByType<MainTower>();
 
         if (tower != null)
-            tower.TakeDamage(1);
+        {
+            EnemyHealth eh = GetComponent<EnemyHealth>();
+            bool isBoss = eh != null && eh.isBoss;
+
+            if (isBoss)
+            {
+                Debug.Log("[EnemyMovement] BOSS sampai ke Main Tower!");
+                tower.DestroyInstantly();
+            }
+            else
+            {
+                tower.TakeDamage(1);
+            }
+        }
 
         Debug.Log("[EnemyMovement] Musuh mencapai Main Tower!");
         Destroy(gameObject);
