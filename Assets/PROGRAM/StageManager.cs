@@ -25,8 +25,13 @@ public class StageManager : MonoBehaviour
 
     private int currentStageIndex = 0;
 
-    public static event System.Action<int> OnStageChanged;      // membawa nomor stage
+    public static event System.Action<int> OnStageChanged; // membawa nomor stage
+    
+    public static event System.Action<int> OnStageCompleted;     
     public static event System.Action OnAllStagesComplete;      // MENANG TOTAL
+
+    private int pendingNextStageIndex = -1; // Menyimpan indeks stage berikutnya.
+    private bool waitingForNextStage = false; // Menandakan bahwa permainan sedang menunggu pemain menekan tombol Next Stage
 
     private void Awake()
     {
@@ -61,8 +66,24 @@ public class StageManager : MonoBehaviour
             Debug.LogWarning("[StageManager] Belum ada data stage di array 'Stages'!");
             return;
         }
+        
+        int stageIndexToStart = 0;
 
-        BeginStage(0);
+        if (PlayerPrefs.HasKey("RetryStageIndex"))
+        {
+            stageIndexToStart = PlayerPrefs.GetInt("RetryStageIndex");
+
+            PlayerPrefs.DeleteKey("RetryStageIndex");
+            PlayerPrefs.Save();
+        }
+
+        stageIndexToStart = Mathf.Clamp(
+            stageIndexToStart,
+            0,
+            stages.Length - 1
+        );
+
+        BeginStage(stageIndexToStart);
     }
 
     private void BeginStage(int index)
@@ -75,22 +96,66 @@ public class StageManager : MonoBehaviour
         waveSpawner.StartStage(data.stageNumber, data.waves);
         OnStageChanged?.Invoke(data.stageNumber);
     }
+// Sebelumnya:
+    // private void HandleStageComplete()
+    // {
+    //     int nextIndex = currentStageIndex + 1;
+
+    //     if (nextIndex >= stages.Length)
+    //     {
+    //         Debug.Log("[StageManager] SEMUA STAGE SELESAI! Pemain menang total.");
+    //         OnAllStagesComplete?.Invoke();
+    //         return;
+    //     }
+
+    //     BeginStage(nextIndex);
+    // }
 
     private void HandleStageComplete()
     {
+         if (waitingForNextStage)
+            return;
+            
+        int completedStageNumber =
+            stages[currentStageIndex].stageNumber;
+
         int nextIndex = currentStageIndex + 1;
 
         if (nextIndex >= stages.Length)
         {
-            Debug.Log("[StageManager] SEMUA STAGE SELESAI! Pemain menang total.");
+            Debug.Log(
+                "[StageManager] SEMUA STAGE SELESAI! Pemain menang total."
+            );
+
             OnAllStagesComplete?.Invoke();
             return;
         }
 
-        BeginStage(nextIndex);
-    }
+        pendingNextStageIndex = nextIndex;
+        waitingForNextStage = true;
 
+        Debug.Log(
+            $"[StageManager] Stage {completedStageNumber} selesai. " +
+            "Menunggu tombol Next Stage."
+        );
+
+        OnStageCompleted?.Invoke(completedStageNumber);
+    }
     public int GetCurrentStageNumber() => stages.Length > 0 ? stages[currentStageIndex].stageNumber : 1;
     public int GetCurrentStageDisplay() => currentStageIndex + 1;
+    public int GetCurrentStageIndex() => currentStageIndex; //untuk tryagain
     public int GetTotalStages() => stages.Length;
+
+    public void ContinueToNextStage()
+    {
+        if (!waitingForNextStage || pendingNextStageIndex < 0)
+            return;
+
+        int nextIndex = pendingNextStageIndex;
+
+        pendingNextStageIndex = -1;
+        waitingForNextStage = false;
+
+        BeginStage(nextIndex);
+    }
 }
