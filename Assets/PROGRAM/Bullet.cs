@@ -132,22 +132,16 @@ public class Bullet : MonoBehaviour
 
     private void ApplySlow(Transform enemy)
     {
+        EnemyHealth eh = enemy.GetComponent<EnemyHealth>();
+        if (eh != null && eh.immuneToSlow)
+        {
+            Debug.Log($"[Bullet] {enemy.name} (Slimy) kebal terhadap efek slow!");
+            return;
+        }
+
         EnemyMovement em = enemy.GetComponent<EnemyMovement>();
         if (em != null)
-            StartCoroutine(SlowCoroutine(em));
-    }
-
-    private System.Collections.IEnumerator SlowCoroutine(EnemyMovement em)
-    {
-        if (em == null) yield break;
-
-        float originalSpeed = em.GetSpeed();
-        em.speed = originalSpeed * (1f - slowAmount);
-
-        yield return new WaitForSeconds(slowDuration);
-
-        if (em != null)
-            em.speed = originalSpeed;
+            em.ApplySlow(slowAmount, slowDuration);
     }
 
     private void OnDrawGizmos()

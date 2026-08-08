@@ -158,8 +158,29 @@ public class Tower : MonoBehaviour
         foreach (GameObject enemy in enemies)
         {
             float dist = Vector3.Distance(transform.position, enemy.transform.position);
-            if (dist <= range)
-                enemiesInRange.Add(enemy);
+            if (dist > range) continue;
+
+            EnemyHealth eh = enemy.GetComponent<EnemyHealth>();
+
+            if (eh != null)
+            {
+                // Tower INI sudah tercatat sebagai "tower pertama yang dilompati" -> SELALU skip,
+                // bukan cuma sekali, selama Worzy masih ada di jangkauan tower ini.
+                if (eh.immuneFromTower == this)
+                    continue;
+
+                // Ini pertama kalinya musuh ini (Worzy) ketemu tower manapun -> catat tower INI
+                // sebagai yang harus dilewati selamanya, tower lain tetap bisa menembaknya nanti.
+                if (eh.isUntargetable && eh.immuneFromTower == null)
+                {
+                    eh.immuneFromTower = this;
+                    eh.isUntargetable = false;
+                    Debug.Log($"[Tower] {enemy.name} (Worzy) melompati tower {gameObject.name} — kebal permanen dari tower ini!");
+                    continue;
+                }
+            }
+
+            enemiesInRange.Add(enemy);
         }
 
         if (enemiesInRange.Count == 0)

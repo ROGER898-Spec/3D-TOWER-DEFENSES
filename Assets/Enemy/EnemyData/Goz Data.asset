@@ -18,5 +18,6 @@ MonoBehaviour:
   moveSpeed: 0.5
   rewardOnDeath: 120
   element: 0
-  enemyPrefab: {fileID: 0}
+  enemyPrefab: {fileID: 127481660330259592, guid: a75ea1d64723e2645bf71413d33f510e,
+    type: 3}
   description: Memiliki skill lari cepat secara berkala.

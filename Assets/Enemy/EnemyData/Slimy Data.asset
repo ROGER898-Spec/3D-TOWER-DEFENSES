@@ -18,5 +18,6 @@ MonoBehaviour:
   moveSpeed: 0.9
   rewardOnDeath: 100
   element: 1
-  enemyPrefab: {fileID: 0}
+  enemyPrefab: {fileID: 127481660330259592, guid: 9ee60e0c643627b4bbb6d6eebb03487b,
+    type: 3}
   description: Kebal terhadap efek slow dari Water Tower.
