@@ -158,8 +158,20 @@ public class Tower : MonoBehaviour
         foreach (GameObject enemy in enemies)
         {
             float dist = Vector3.Distance(transform.position, enemy.transform.position);
-            if (dist <= range)
-                enemiesInRange.Add(enemy);
+            if (dist > range) continue;
+
+            EnemyHealth eh = enemy.GetComponent<EnemyHealth>();
+
+            // Boss: Worzy - lompati tower PERTAMA yang mendeteksinya di jangkauan,
+            // setelah itu jadi targetable normal untuk tower lain (dan tower ini juga, ke depannya)
+            if (eh != null && eh.isUntargetable)
+            {
+                eh.isUntargetable = false;
+                Debug.Log($"[Tower] {enemy.name} (Worzy) melompati tower {gameObject.name}!");
+                continue;
+            }
+
+            enemiesInRange.Add(enemy);
         }
 
         if (enemiesInRange.Count == 0)

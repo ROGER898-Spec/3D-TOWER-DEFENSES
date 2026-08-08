@@ -132,6 +132,13 @@ public class Bullet : MonoBehaviour
 
     private void ApplySlow(Transform enemy)
     {
+        EnemyHealth eh = enemy.GetComponent<EnemyHealth>();
+        if (eh != null && eh.immuneToSlow)
+        {
+            Debug.Log($"[Bullet] {enemy.name} (Slimy) kebal terhadap efek slow!");
+            return;
+        }
+
         EnemyMovement em = enemy.GetComponent<EnemyMovement>();
         if (em != null)
             StartCoroutine(SlowCoroutine(em));

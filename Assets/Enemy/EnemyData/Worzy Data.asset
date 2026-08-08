@@ -18,5 +18,6 @@ MonoBehaviour:
   moveSpeed: 1.6
   rewardOnDeath: 150
   element: 2
-  enemyPrefab: {fileID: 0}
+  enemyPrefab: {fileID: 7458865323990081719, guid: 096dc137256330d46bb32364554e0ddf,
+    type: 3}
   description: Bisa melompati tower pertama yang ditemuinya.

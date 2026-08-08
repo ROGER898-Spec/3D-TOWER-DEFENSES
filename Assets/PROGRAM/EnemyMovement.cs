@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 /// <summary>
@@ -32,18 +33,65 @@ public class EnemyMovement : MonoBehaviour
     [SerializeField] private bool isStunned = false;
     [SerializeField] private float stunTimer = 0f;
 
+    [Header("Boss: Goz - Speed Burst Berkala")]
+    [Tooltip("Centang untuk boss Goz: speed meningkat sementara secara berkala. PLACEHOLDER angka, belum ada di tabel balancing.")]
+    public bool hasSpeedBurst = false;
+    public float speedBurstMultiplier = 2f;
+    public float speedBurstInterval = 5f;
+    public float speedBurstDuration = 1f;
+
     // ─── Private State ────────────────────────────────────────────────────────
     private Transform[] path;
     private int targetWaypointIndex = 0;
     private bool isMoving = false;
+    private float baseSpeed;
+    private Coroutine speedBurstCoroutine;
+
+    private void Awake()
+    {
+        baseSpeed = speed;
+    }
 
     // ─── Inisialisasi jalur dari WaveSpawner ─────────────────────────────────
     /// <summary>Dipanggil oleh WaveSpawner setelah musuh di-spawn</summary>
     public void InitPath(Transform[] waypoints)
     {
+        InitPath(waypoints, 0);
+    }
+
+    /// <summary>
+    /// Overload dengan titik mulai tertentu (dipakai Skulgorz waktu memunculkan
+    /// anak buah — supaya musuh baru lanjut dari titik boss mati, bukan dari awal jalur).
+    /// </summary>
+    public void InitPath(Transform[] waypoints, int startIndex)
+    {
         path = waypoints;
-        targetWaypointIndex = 0;
+        targetWaypointIndex = (waypoints != null && waypoints.Length > 0)
+            ? Mathf.Clamp(startIndex, 0, waypoints.Length - 1)
+            : 0;
         isMoving = (path != null && path.Length > 0);
+
+        if (hasSpeedBurst && speedBurstCoroutine == null)
+            speedBurstCoroutine = StartCoroutine(SpeedBurstRoutine());
+    }
+
+    public Transform[] GetCurrentPath() => path;
+
+    // ─── Boss: Goz - lari cepat berkala ───────────────────────────────────────
+    private IEnumerator SpeedBurstRoutine()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(speedBurstInterval);
+
+            // Catatan: kalau kebetulan tumpang tindih sama efek Slow (Water Tower),
+            // urutan reset bisa sedikit tidak presisi (kasus jarang, belum ditangani khusus).
+            Debug.Log($"[EnemyMovement] {gameObject.name} (Goz) lari cepat! Speed x{speedBurstMultiplier} selama {speedBurstDuration} detik");
+            speed = baseSpeed * speedBurstMultiplier;
+
+            yield return new WaitForSeconds(speedBurstDuration);
+            speed = baseSpeed;
+        }
     }
 
     // ─── Stone Impact (Earth): hentikan gerak sementara ──────────────────────

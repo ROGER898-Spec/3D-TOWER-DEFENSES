@@ -18,6 +18,24 @@ public class EnemyHealth : MonoBehaviour
     [Tooltip("Centang kalau musuh ini boss. Dipakai MainTower.cs untuk cek instant-destroy kalau boss sampai lolos.")]
     public bool isBoss = false;
 
+    [Header("Boss: Slimy - Kebal Slow")]
+    [Tooltip("Kalau dicentang, efek slow (Water Tower) tidak berpengaruh sama sekali ke musuh ini")]
+    public bool immuneToSlow = false;
+
+    [Header("Boss: Praorc - Armor")]
+    [Tooltip("PLACEHOLDER 0.3 = kurangi 30% dari SEMUA damage masuk. Konfirmasi ke tim: armor ini general atau cuma elemen tertentu?")]
+    [Range(0f, 1f)] public float damageReduction = 0f;
+
+    [Header("Boss: Worzy - Lompat Tower Pertama")]
+    [Tooltip("Kalau true, tower PERTAMA yang mendeteksi musuh ini di jangkauannya TIDAK BISA menembaknya (dianggap 'dilompati'). Otomatis jadi false setelah 1 tower 'melewatkannya'.")]
+    public bool isUntargetable = false;
+
+    [Header("Boss: Skulgorz - Munculkan Anak Buah Saat Mati")]
+    [Tooltip("Prefab musuh kecil yang muncul saat boss ini mati (misal Skeleton)")]
+    public GameObject[] spawnOnDeathPrefabs;
+    [Tooltip("Berapa banyak yang muncul saat mati")]
+    public int spawnOnDeathCount = 0;
+
     [Header("Reward")]
     public int rewardOnDeath = 10;
 
@@ -83,6 +101,15 @@ public class EnemyHealth : MonoBehaviour
     {
         if (isDead) return;
 
+        // Boss: Praorc - kurangi damage sesuai armor
+        if (damageReduction > 0f)
+        {
+            float reduced = amount * (1f - damageReduction);
+            if (reduced != amount)
+                Debug.Log($"[EnemyHealth] {gameObject.name} (armor) damage dikurangi: {amount} -> {reduced}");
+            amount = reduced;
+        }
+
         currentHealth -= amount;
         UpdateHealthBar();
 
@@ -139,6 +166,26 @@ public class EnemyHealth : MonoBehaviour
 
         if (deathEffectPrefab != null)
             Instantiate(deathEffectPrefab, transform.position, Quaternion.identity);
+
+        // Boss: Skulgorz - munculkan anak buah saat mati, lanjutkan dari titik yang sama
+        if (spawnOnDeathCount > 0 && spawnOnDeathPrefabs != null && spawnOnDeathPrefabs.Length > 0)
+        {
+            EnemyMovement myMovement = GetComponent<EnemyMovement>();
+            Transform[] currentPath = myMovement != null ? myMovement.GetCurrentPath() : null;
+            int currentIndex = myMovement != null ? myMovement.GetCurrentWaypointIndex() : 0;
+
+            for (int i = 0; i < spawnOnDeathCount; i++)
+            {
+                GameObject prefab = spawnOnDeathPrefabs[Random.Range(0, spawnOnDeathPrefabs.Length)];
+                GameObject spawned = Instantiate(prefab, transform.position, Quaternion.identity);
+
+                EnemyMovement spawnedMovement = spawned.GetComponent<EnemyMovement>();
+                if (spawnedMovement != null && currentPath != null)
+                    spawnedMovement.InitPath(currentPath, currentIndex);
+            }
+
+            Debug.Log($"[EnemyHealth] {gameObject.name} mati, memunculkan {spawnOnDeathCount} musuh baru!");
+        }
 
         OnEnemyKilled?.Invoke(rewardOnDeath);
 
