@@ -46,6 +46,9 @@ public class EnemyMovement : MonoBehaviour
     private bool isMoving = false;
     private float baseSpeed;
     private Coroutine speedBurstCoroutine;
+    private Coroutine slowCoroutine;
+    private float slowMultiplier = 1f;
+    private float burstMultiplier = 1f;
 
     private void Awake()
     {
@@ -77,6 +80,42 @@ public class EnemyMovement : MonoBehaviour
 
     public Transform[] GetCurrentPath() => path;
 
+    /// <summary>
+    /// Recalculasi speed final dari baseSpeed x slowMultiplier x burstMultiplier.
+    /// SEMUA yang mengubah kecepatan (slow, burst) HARUS lewat sini, supaya tidak
+    /// saling menimpa/menumpuk secara keliru.
+    /// </summary>
+    private void RecalculateSpeed()
+    {
+        speed = baseSpeed * slowMultiplier * burstMultiplier;
+    }
+
+    // ─── Water Tower: Tidal Slow ───────────────────────────────────────────────
+    /// <summary>
+    /// Terapkan efek slow. Selalu dihitung dari baseSpeed (bukan speed saat ini),
+    /// supaya kalau kena slow berkali-kali beruntun TIDAK menumpuk/mengecil terus.
+    /// Kena slow lagi selagi masih slow -> durasi & besarannya di-reset ke yang baru.
+    /// </summary>
+    public void ApplySlow(float slowAmount, float duration)
+    {
+        if (slowCoroutine != null)
+            StopCoroutine(slowCoroutine);
+
+        slowCoroutine = StartCoroutine(SlowRoutine(slowAmount, duration));
+    }
+
+    private IEnumerator SlowRoutine(float slowAmount, float duration)
+    {
+        slowMultiplier = 1f - slowAmount;
+        RecalculateSpeed();
+
+        yield return new WaitForSeconds(duration);
+
+        slowMultiplier = 1f;
+        RecalculateSpeed();
+        slowCoroutine = null;
+    }
+
     // ─── Boss: Goz - lari cepat berkala ───────────────────────────────────────
     private IEnumerator SpeedBurstRoutine()
     {
@@ -84,13 +123,13 @@ public class EnemyMovement : MonoBehaviour
         {
             yield return new WaitForSeconds(speedBurstInterval);
 
-            // Catatan: kalau kebetulan tumpang tindih sama efek Slow (Water Tower),
-            // urutan reset bisa sedikit tidak presisi (kasus jarang, belum ditangani khusus).
             Debug.Log($"[EnemyMovement] {gameObject.name} (Goz) lari cepat! Speed x{speedBurstMultiplier} selama {speedBurstDuration} detik");
-            speed = baseSpeed * speedBurstMultiplier;
+            burstMultiplier = speedBurstMultiplier;
+            RecalculateSpeed();
 
             yield return new WaitForSeconds(speedBurstDuration);
-            speed = baseSpeed;
+            burstMultiplier = 1f;
+            RecalculateSpeed();
         }
     }
 

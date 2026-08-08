@@ -984,18 +984,18 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 596064424}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5313fa54d8f90d84180de11ba5f39e53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   waves:
   - waveName: 1
-    enemyPrefab: {fileID: 127481660330259592, guid: 22e4b6e9de23c9b4b8d3cb95dc1490f9,
+    enemyPrefab: {fileID: 817740997536655395, guid: 0145c9a3f43fca545906d1a7845535db,
       type: 3}
     enemyPrefabs: []
-    count: 3
-    spawnRate: 1
+    count: 1
+    spawnRate: 0.5
   - waveName: 2
     enemyPrefab: {fileID: 127481660330259592, guid: 3a3eeabe443436f4a867a9b8f020fa3b,
       type: 3}
@@ -2248,7 +2248,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1733913411
 MonoBehaviour:
   m_ObjectHideFlags: 0

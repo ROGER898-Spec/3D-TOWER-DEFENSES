@@ -141,20 +141,7 @@ public class Bullet : MonoBehaviour
 
         EnemyMovement em = enemy.GetComponent<EnemyMovement>();
         if (em != null)
-            StartCoroutine(SlowCoroutine(em));
-    }
-
-    private System.Collections.IEnumerator SlowCoroutine(EnemyMovement em)
-    {
-        if (em == null) yield break;
-
-        float originalSpeed = em.GetSpeed();
-        em.speed = originalSpeed * (1f - slowAmount);
-
-        yield return new WaitForSeconds(slowDuration);
-
-        if (em != null)
-            em.speed = originalSpeed;
+            em.ApplySlow(slowAmount, slowDuration);
     }
 
     private void OnDrawGizmos()

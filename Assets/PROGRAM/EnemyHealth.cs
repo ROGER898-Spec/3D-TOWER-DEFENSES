@@ -29,6 +29,8 @@ public class EnemyHealth : MonoBehaviour
     [Header("Boss: Worzy - Lompat Tower Pertama")]
     [Tooltip("Kalau true, tower PERTAMA yang mendeteksi musuh ini di jangkauannya TIDAK BISA menembaknya (dianggap 'dilompati'). Otomatis jadi false setelah 1 tower 'melewatkannya'.")]
     public bool isUntargetable = false;
+    [Tooltip("Diisi OTOMATIS oleh Tower.cs — tower spesifik yang harus SELALU dilewati (bukan cuma 1x), selama Worzy masih di jangkauannya")]
+    [HideInInspector] public Tower immuneFromTower;
 
     [Header("Boss: Skulgorz - Munculkan Anak Buah Saat Mati")]
     [Tooltip("Prefab musuh kecil yang muncul saat boss ini mati (misal Skeleton)")]

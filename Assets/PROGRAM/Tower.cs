@@ -162,13 +162,22 @@ public class Tower : MonoBehaviour
 
             EnemyHealth eh = enemy.GetComponent<EnemyHealth>();
 
-            // Boss: Worzy - lompati tower PERTAMA yang mendeteksinya di jangkauan,
-            // setelah itu jadi targetable normal untuk tower lain (dan tower ini juga, ke depannya)
-            if (eh != null && eh.isUntargetable)
+            if (eh != null)
             {
-                eh.isUntargetable = false;
-                Debug.Log($"[Tower] {enemy.name} (Worzy) melompati tower {gameObject.name}!");
-                continue;
+                // Tower INI sudah tercatat sebagai "tower pertama yang dilompati" -> SELALU skip,
+                // bukan cuma sekali, selama Worzy masih ada di jangkauan tower ini.
+                if (eh.immuneFromTower == this)
+                    continue;
+
+                // Ini pertama kalinya musuh ini (Worzy) ketemu tower manapun -> catat tower INI
+                // sebagai yang harus dilewati selamanya, tower lain tetap bisa menembaknya nanti.
+                if (eh.isUntargetable && eh.immuneFromTower == null)
+                {
+                    eh.immuneFromTower = this;
+                    eh.isUntargetable = false;
+                    Debug.Log($"[Tower] {enemy.name} (Worzy) melompati tower {gameObject.name} — kebal permanen dari tower ini!");
+                    continue;
+                }
             }
 
             enemiesInRange.Add(enemy);
